@@ -57,43 +57,45 @@ struct VerticallyScrollingSwiftIconsBackground: View {
 }
 
 struct ContentView: View {
-    @State private var buttonTintColor: Color = .blue
-    let colorOptions: [Color] = [.blue, .green, .orange, .red, .purple, .clear]
+    @State private var buttonTintColor: Color = .clear
+    let colorOptions: [Color] = [.clear, .red, .orange, .yellow, .green, .blue, .indigo, .purple]
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 VerticallyScrollingSwiftIconsBackground()
                 VStack {
-                    // 2. MENU: We wrap your button in a Menu.
-                    // The 'label' is what the user taps on. The content inside
-                    // the curly braces is the list of options that will appear.
+                    Button("Im a Button"){}
+                        .padding(30)
+                        .glassEffect(in: .rect(cornerRadius:16))
+                    Text("Liquid Glass")
+                        .font(.title)
+                        .padding()
+                        .glassEffect()
                     Menu {
-                        // We loop over our colorOptions array to create a button for each one.
                         ForEach(colorOptions, id: \.self) { color in
                             Button {
-                                // This is the action: when a color is tapped,
-                                // we update our state variable.
                                 self.buttonTintColor = color
                             } label: {
-                                // This makes the menu option look nice, with a colored
-                                // circle next to the color's name.
                                 Label(color.description.capitalized, systemImage: "circle.fill")
                                     .tint(color) // Make the circle the correct color
                             }
                         }
                     } label: {
-                        // This is your original button. It now acts as the trigger for the menu.
-                        Text("Liquid Glass")
+                        Text("Choose Tint")
+                            .font(.title)
                             .padding()
-                            .foregroundStyle(.black)
+                            
                     }
-                    .buttonStyle(.glass)
-                    .glassEffect(.regular.tint(buttonTintColor).interactive())
+                    .glassEffect(.regular.tint(buttonTintColor.opacity(1)).interactive())
                     .accessibilityLabel("Activate Liquid Glass effect")
-                    // 3. TINT: We apply the selected color to the whole Menu view.
-                    // Because our @State variable is used here, SwiftUI knows to
-                    // update the color whenever 'buttonTintColor' changes.
-                    .tint(buttonTintColor)
+                    Menu{
+                        
+                    } label: {
+                        Text("Menu")
+                            .font(.title)
+                            .padding()
+                            .glassEffect()
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)        }
         }
